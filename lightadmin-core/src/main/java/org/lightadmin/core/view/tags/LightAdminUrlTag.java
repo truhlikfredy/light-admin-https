@@ -22,14 +22,31 @@ import javax.servlet.jsp.JspException;
 import static org.springframework.beans.PropertyAccessorFactory.forDirectFieldAccess;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 
+/**
+ * Overides http into https
+ * @Author Yoann
+ */
+/*
+ * Added static excludes
+ *
+ * @Author Anton
+ */
 public class LightAdminUrlTag extends org.springframework.web.servlet.tags.UrlTag {
+
+    //these URLs will be excluded from https and will use http
+    private static final String EXCLUDE_1         = "localhost";
+    private static final String EXCLUDE_2         = "run-angel.net";
 
     private static final String URL_TYPE_ABSOLUTE = "://";
 
     @Override
     public int doEndTag() throws JspException {
         if (isRelative(getValue())) {
-            setValue(absoluteUrlOf(applicationUrl(getValue())));
+            String absUrl = absoluteUrlOf(applicationUrl(getValue()));
+            if (!absUrl.contains(EXCLUDE_1) && !absUrl.contains(EXCLUDE_2) && !absUrl.startsWith("https")) {
+                absUrl = absUrl.replace("http", "https");
+            }
+            setValue(absUrl);
         }
         return super.doEndTag();
     }
