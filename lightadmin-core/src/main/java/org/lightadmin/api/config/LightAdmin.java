@@ -76,4 +76,9 @@ public class LightAdmin {
         servletContext.setInitParameter(LIGHT_ADMINISTRATION_DEMO_MODE, Boolean.toString(true));
         return this;
     }
+
+    public LightAdmin helpEnabled() {
+        servletContext.setInitParameter(LIGHT_ADMINISTRATION_HELP_ENABLED, Boolean.toString(true));
+        return this;
+    }
 }

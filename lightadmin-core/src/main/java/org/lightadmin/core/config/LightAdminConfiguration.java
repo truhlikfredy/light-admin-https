@@ -32,6 +32,8 @@ public interface LightAdminConfiguration {
 
     boolean isDemoMode();
 
+    boolean isHelpEnabled();
+
     String getSecurityLogoutUrl();
 
     String getBackToSiteUrl();
