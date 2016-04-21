@@ -1,6 +1,6 @@
 # LightAdmin - CRUD data administration library for Java web applications.
 
-##Warrning##
+##Warning##
 
 This is just a fork of the lightadmin tool to add some missing features. To be honest probably it was mistake to choose this tool. Many aspects look promising, but lot of them are not. This tool has some potential and it could be awesome, but there are lot of problems which makes it terrible. It could be pretty late if you realise the drawbacks.
 
