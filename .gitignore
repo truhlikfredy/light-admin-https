@@ -11,7 +11,7 @@
 *.class
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 *~
@@ -47,3 +47,4 @@ target/
 .classpath
 .project
 /.gitignore
+
