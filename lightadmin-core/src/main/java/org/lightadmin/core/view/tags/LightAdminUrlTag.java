@@ -52,13 +52,6 @@ public class LightAdminUrlTag extends org.springframework.web.servlet.tags.UrlTa
 
     @Override
     public int doEndTag() throws JspException {
-        if (true) {
-            if (isRelative(getValue())) {
-                setValue(absoluteUrlOf(applicationUrl(getValue())));
-            }
-            return super.doEndTag();
-        }
-
         log.debug(getValue() + " --- " +absoluteUrlOf(applicationUrl(getValue())));
 
         if (isRelative(getValue())) {
