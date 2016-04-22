@@ -16,6 +16,8 @@
 package org.lightadmin.core.view.tags;
 
 import org.lightadmin.core.config.LightAdminConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspException;
 
@@ -27,27 +29,47 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
  * @Author Yoann
  */
 /*
- * Added static excludes
+ * Modified https handling
  *
  * @Author Anton
  */
 public class LightAdminUrlTag extends org.springframework.web.servlet.tags.UrlTag {
 
     //these URLs will be excluded from https and will use http
-    private static final String EXCLUDE_1         = "localhost";
-    private static final String EXCLUDE_2         = "run-angel.net";
+    public  static        String Exclude1          = "localhost";
+    public  static        String Exclude2          = "example.com";
+    private static final  String URL_TYPE_ABSOLUTE = "://";
+    private static final  Logger log               = LoggerFactory.getLogger(LightAdminUrlTag.class);
 
-    private static final String URL_TYPE_ABSOLUTE = "://";
+
+    private String replaceHttp(String url) {
+        if ( !url.contains(Exclude1) && !url.contains(Exclude2) && !url.contains("https")) {
+            return url.replace("http", "https");
+        }
+        return url;
+    }
+
 
     @Override
     public int doEndTag() throws JspException {
-        if (isRelative(getValue())) {
-            String absUrl = absoluteUrlOf(applicationUrl(getValue()));
-            if (!absUrl.contains(EXCLUDE_1) && !absUrl.contains(EXCLUDE_2) && !absUrl.startsWith("https")) {
-                absUrl = absUrl.replace("http", "https");
+        if (true) {
+            if (isRelative(getValue())) {
+                setValue(absoluteUrlOf(applicationUrl(getValue())));
             }
-            setValue(absUrl);
+            return super.doEndTag();
         }
+
+        log.debug(getValue() + " --- " +absoluteUrlOf(applicationUrl(getValue())));
+
+        if (isRelative(getValue())) {
+            //relative paths convert into absolute first and then convert http into https
+            setValue(replaceHttp(absoluteUrlOf(applicationUrl(getValue()))));
+        } else {
+            //absolute paths just replace http with https
+            setValue(replaceHttp(getValue()));
+        }
+
+        log.debug("Converted: "+getValue());
         return super.doEndTag();
     }
 
